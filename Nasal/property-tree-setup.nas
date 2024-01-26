@@ -1,5 +1,5 @@
 # McDonnell Douglas MD-11 Property Tree Setup
-# Copyright (c) 2023 Josh Davidson (Octal450)
+# Copyright (c) 2024 Josh Davidson (Octal450)
 # Nodes organized like property tree, except when lots of identical (example: Gear wow), where vectors are used to make it easier
 # Anything that says Temp is set by another file to avoid multiple getValue calls
 # Usage Example: pts.Class.SubClass.node.getValue()
@@ -85,6 +85,8 @@ var Fdm = {
 			Lsas: {
 				autotrimInhibit: props.globals.getNode("/fdm/jsbsim/fcc/lsas/autotrim-inhibit"),
 			},
+			powerAvail: props.globals.getNode("/fdm/jsbsim/fcc/power-avail"),
+			powerAvailTemp: 0,
 			pitchTrimSpeed: props.globals.getNode("/fdm/jsbsim/fcc/pitch-trim-speed"),
 			stallAlphaDeg: props.globals.getNode("/fdm/jsbsim/fcc/stall-alpha-deg"),
 			stallWarnAlphaDeg: props.globals.getNode("/fdm/jsbsim/fcc/stall-warn-alpha-deg"),

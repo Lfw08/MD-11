@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0"?>
 
-<!-- Copyright (c) 2023 Josh Davidson (Octal450) -->
+<!-- Copyright (c) 2024 Josh Davidson (Octal450) -->
 
 <PropertyList>
 	
@@ -62,19 +62,19 @@
 		</condition>
 	</animation>
 	
-	<!--model>
+	<model>
 		<name>Analog Standby</name>
 		<path>Aircraft/MD-11/Models/Cockpit/Instruments/standby/standby.xml</path>
 		<offsets>
-			<x-m>-27.473</x-m>
+			<x-m>-27.471</x-m>
 			<y-m>-0.00238</y-m>
-			<z-m>6.7505</z-m>
+			<z-m>6.7513</z-m>
 			<pitch-deg>-20.12</pitch-deg>
 		</offsets>
 		<condition>
 			<not><property>systems/acconfig/options/iesi-equipped</property></not>
 		</condition>
-	</model-->
+	</model>
 	
 	<model>
 		<name>IESI</name>
@@ -83,9 +83,9 @@
 			<y-m>-0.00238</y-m>
 			<z-m>0.002</z-m>
 		</offsets>
-		<!--condition>
+		<condition>
 			<property>systems/acconfig/options/iesi-equipped</property>
-		</condition-->
+		</condition>
 	</model>
 
 	<model>
@@ -1121,7 +1121,7 @@
 		<type>translate</type>
 		<object-name>starter.1.off</object-name>
 		<object-name>starter.1.on</object-name>
-		<property>systems/ignition/start-switch-1</property>
+		<property>controls/cockpit/start-switch-1</property>
 		<factor>-0.005</factor>
 		<axis>
 			<x1-m>-27.0331</x1-m>
@@ -1207,7 +1207,7 @@
 		<type>translate</type>
 		<object-name>starter.2.off</object-name>
 		<object-name>starter.2.on</object-name>
-		<property>systems/ignition/start-switch-2</property>
+		<property>controls/cockpit/start-switch-2</property>
 		<factor>-0.005</factor>
 		<axis>
 			<x1-m>-27.0331</x1-m>
@@ -1293,7 +1293,7 @@
 		<type>translate</type>
 		<object-name>starter.3.off</object-name>
 		<object-name>starter.3.on</object-name>
-		<property>systems/ignition/start-switch-3</property>
+		<property>controls/cockpit/start-switch-3</property>
 		<factor>-0.005</factor>
 		<axis>
 			<x1-m>-27.0331</x1-m>

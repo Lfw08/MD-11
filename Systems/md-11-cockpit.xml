@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 
 <!-- McDonnell Douglas MD-11 Cockpit -->
-<!-- Copyright (c) 2023 Josh Davidson (Octal450) -->
+<!-- Copyright (c) 2024 Josh Davidson (Octal450) -->
 
 <system name="MD-11: Cockpit"> <!-- Everything here is after all systems -->
 	
@@ -232,6 +232,21 @@
 		
 		<lag_filter name="/controls/cockpit/spoilers-lever-translate">
 			<input>/controls/flight/speedbrake-arm</input>
+			<c1>20</c1>
+		</lag_filter>
+		
+		<lag_filter name="/controls/cockpit/start-switch-1">
+			<input>/systems/ignition/start-switch-1</input>
+			<c1>20</c1>
+		</lag_filter>
+		
+		<lag_filter name="/controls/cockpit/start-switch-2">
+			<input>/systems/ignition/start-switch-2</input>
+			<c1>20</c1>
+		</lag_filter>
+		
+		<lag_filter name="/controls/cockpit/start-switch-3">
+			<input>/systems/ignition/start-switch-3</input>
 			<c1>20</c1>
 		</lag_filter>
 		
@@ -836,6 +851,29 @@
 			<rate_limit sense="incr">0.35</rate_limit>
 			<rate_limit sense="decr">100</rate_limit>
 			<output>/systems/caws/apoff/out</output>
+		</actuator>
+		
+		<!-- Autopilot Horn Once -->
+		<switch name="/systems/caws/apoff/single-trigger">
+			<default value="/systems/caws/apoff/single-trigger"/>
+			<test logic="OR" value="0">
+				/systems/electrical/outputs/mk-viii lt 24
+				<test logic="AND">
+					/it-autoflight/sound/apoff-single eq 0
+					/systems/caws/apoff/single-out eq 1
+				</test>
+			</test>
+			<test logic="AND" value="1">
+				/systems/caws/apoff/single-out eq 0
+				/it-autoflight/sound/apoff-single eq 1
+			</test>
+		</switch>
+		
+		<actuator name="/systems/caws/apoff/single-actuator">
+			<input>/systems/caws/apoff/single-trigger</input>
+			<rate_limit sense="incr">0.35</rate_limit>
+			<rate_limit sense="decr">100</rate_limit>
+			<output>/systems/caws/apoff/single-out</output>
 		</actuator>
 		
 		<!-- Landing Gear Horn -->

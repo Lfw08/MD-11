@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 
 <!-- McDonnell Douglas MD-11 FMS -->
-<!-- Copyright (c) 2023 Josh Davidson (Octal450) -->
+<!-- Copyright (c) 2024 Josh Davidson (Octal450) -->
 
 <system name="MD-11: FMS">
 	
@@ -302,8 +302,9 @@
 			<test value="0">
 				position/wow eq 1
 			</test>	
-			<test value="1">
+			<test logic="OR" value="1">
 				/instrumentation/airspeed-indicator/indicated-speed-kt gt /fms/speeds/v2-latch-speed
+				position/gear-agl-ft ge 100
 			</test>
 		</switch>
 		
