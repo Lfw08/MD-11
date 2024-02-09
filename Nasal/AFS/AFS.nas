@@ -7,8 +7,8 @@
 # Initialize all used variables and property nodes
 # Sim
 var Controls = {
-	aileron: props.globals.getNode("/controls/flight/aileron", 1), # Not written to, so lets use actual yoke value
-	elevator: props.globals.getNode("/controls/flight/elevator", 1), # Not written to, so lets use actual yoke value
+	aileron: props.globals.getNode("/controls/flight/aileron", 1),
+	elevator: props.globals.getNode("/controls/flight/elevator", 1),
 	rudder: props.globals.getNode("/controls/flight/rudder", 1),
 };
 
@@ -103,14 +103,17 @@ var Fd = {
 
 var Input = {
 	alt: props.globals.initNode("/it-autoflight/input/alt", 10000, "INT"),
+	altDiff: 0,
 	altTemp: 1000,
 	ap1: props.globals.initNode("/it-autoflight/input/ap1", 0, "BOOL"),
 	ap1Avail: props.globals.initNode("/it-autoflight/input/ap1-avail", 1, "BOOL"),
+	ap1Temp: 0,
 	ap2: props.globals.initNode("/it-autoflight/input/ap2", 0, "BOOL"),
 	ap2Avail: props.globals.initNode("/it-autoflight/input/ap2-avail", 1, "BOOL"),
+	ap2Temp: 0,
 	athr: props.globals.initNode("/it-autoflight/input/athr", 0, "BOOL"),
 	athrAvail: props.globals.initNode("/it-autoflight/input/athr-avail", 1, "BOOL"),
-	altDiff: 0,
+	athrTemp: 0,
 	bankLimitSw: props.globals.initNode("/it-autoflight/input/bank-limit-sw", 0, "INT"),
 	bankLimitSwTemp: 0,
 	fd1: props.globals.initNode("/it-autoflight/input/fd1", 1, "BOOL"),
@@ -451,31 +454,6 @@ var ITAF = {
 		}
 		
 		# Autoland Logic
-		if (Output.latTemp == 2) {
-			if (Position.gearAglFtTemp <= 150) {
-				if (Output.ap1Temp or Output.ap2Temp) {
-					me.setLatMode(4);
-				}
-			}
-		}
-		if (Output.vertTemp == 2) {
-			if (Position.gearAglFtTemp <= 50 and Position.gearAglFtTemp >= 5) {
-				if (Output.ap1Temp or Output.ap2Temp) {
-					me.setVertMode(6);
-				}
-			}
-		} else if (Output.vertTemp == 6) {
-			if (!Output.ap1Temp and !Output.ap2Temp) {
-				me.activateLoc();
-				me.activateGs();
-			} else {
-				if (Gear.wow1Temp and Gear.wow2Temp and Text.vert.getValue() != "ROLLOUT") {
-					me.updateLatText("RLOU");
-					me.updateVertText("ROLLOUT");
-				}
-			}
-		}
-		
 		if (Output.vertTemp == 2 or Output.vertTemp == 6) {
 			if ((Output.ap1Temp or Output.ap2Temp) and Internal.landCondition == "OFF") {
 				if (!Output.landArm.getBoolValue()) {
@@ -531,6 +509,31 @@ var ITAF = {
 		
 		if (Internal.landCondition != Text.land.getValue()) {
 			Text.land.setValue(Internal.landCondition);
+		}
+		
+		if (Output.latTemp == 2) {
+			if (Position.gearAglFtTemp <= 150) {
+				if ((Output.ap1Temp or Output.ap2Temp) and (Internal.landCondition == "DUAL" or Internal.landCondition == "SINGLE")) {
+					me.setLatMode(4);
+				}
+			}
+		}
+		if (Output.vertTemp == 2) {
+			if (Position.gearAglFtTemp <= 50 and Position.gearAglFtTemp >= 5) {
+				if ((Output.ap1Temp or Output.ap2Temp) and (Internal.landCondition == "DUAL" or Internal.landCondition == "SINGLE")) {
+					me.setVertMode(6);
+				}
+			}
+		} else if (Output.vertTemp == 6) {
+			if ((Output.ap1Temp or Output.ap2Temp) and (Internal.landCondition == "DUAL" or Internal.landCondition == "SINGLE")) {
+				if (Gear.wow1Temp and Gear.wow2Temp and Text.vert.getValue() != "ROLLOUT") {
+					me.updateLatText("RLOU");
+					me.updateVertText("ROLLOUT");
+				}
+			} else {
+				me.activateLoc();
+				me.activateGs();
+			}
 		}
 		
 		if (Internal.landCondition != "DUAL" and Internal.landCondition != "SINGLE" and Text.vert.getValue() != "G/A CLB") {
